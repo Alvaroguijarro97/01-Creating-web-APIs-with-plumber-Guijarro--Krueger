@@ -1,5 +1,6 @@
 ## ---- car-inventory
 library(ggplot2)
+library(dplyr)
 inventory <- read.csv("inventory.csv", stringsAsFactors = FALSE)
 
 #* @apiTitle Excercise: Auto Inventory Manager
@@ -7,44 +8,21 @@ inventory <- read.csv("inventory.csv", stringsAsFactors = FALSE)
 
 
 #* List all cars in the inventory.
+#* This will provide the user with all the data points in the inventory. 
 #* @get /car/
 #* @tag Cars
 listCars <- function(){
   inventory
 }
 
-
-#* Create a Scatter Plot with the count of the different car models in the inventory.
-#* @serializer png
-#* @get /plot1
+#*Find the cars in inventory by manufacturer.
+#* Lookup cars by manufacturer (Options: Buick, Chevrolet, Ford, GMC, Nissan, Toyota, Volvo)
+#* @param make The name of the manufacturer of the car 
+#* @get /car/<make:character>
+#* @response 404 No car with the given maker was found in the inventory.
 #* @tag Cars
-getChart2 <-  function() {
-  c <- ggplot(inventory, aes(x=year, y=price, color=make)) + 
-    geom_point(size=6) +
-    theme_minimal()
-  print(c)
-}
-
-#* Create a Frequency chart with the count of the different car models in the inventory.
-#* @serializer png
-#* @get /plot
-#* @tag Cars
-getChart1 <- function() {
-  b <- ggplot(inventory, aes(x=factor(make)))+
-    geom_bar(stat="count", width=0.7, fill="steelblue", color= "black")+
-    theme_minimal()
-  print(b)
-}
-
-#*Find Cheapest and Most Expensive car by year
-
-#* Lookup a car by ID
-#* @param id The ID of the car to get
-#* @get /car/<id:int>
-#* @response 404 No car with the given ID was found in the inventory.
-#* @tag Cars
-getCar <- function(id, res){
-  car <- inventory[inventory$id == id,]
+getCar <- function(make, res){
+  car <- inventory[inventory$make == make,]
   if (nrow(car) == 0){
     res$status <- 404
   }
@@ -52,18 +30,56 @@ getCar <- function(id, res){
 }
 
 
-validateCar <- function(make, model, year){
-  if (missing(make) || nchar(make) == 0){
-    return("No make specified")
-  }
-  if (missing(model) || nchar(model) == 0){
-    return("No model specified")
-  }
-  if (missing(year) || as.integer(year) == 0){
-    return("No year specified")
-  }
-  NULL
+#* Create a Scatter Plot 
+#* See the relationship between mileage and year a car was manufactured.
+#* @serializer png
+#* @get /plot_scatter
+#* @tag Cars
+getChart2 <-  function() {
+  c <- ggplot(inventory, aes(x=year, y=miles, color=make)) + 
+    geom_point(size=6) +
+    scale_y_continuous(name="Car Mileage", breaks= waiver(),limits=c(15000, 300000))+
+    scale_x_continuous(name="Year", limits=c(1990, 2020))
+  print(c)
 }
+
+#* Create a Frequency chart 
+#* See how many cars are in the inventory from the different makers.
+#* @serializer png
+#* @get /plot_frequency
+#* @tag Cars
+getChart1 <- function() {
+  b <- ggplot(inventory, aes(x=factor(make)))+
+    geom_bar(stat="count", width=0.7, fill="steelblue", color= "black")+
+    scale_y_continuous(name="Count")+
+    xlab("Car Manufactures")+
+    theme_minimal()
+  print(b)
+}
+
+
+#* Average price per year
+#* See what is the average selling price for cars by the year they were manufactured.
+#* @serializer png
+#* @get /plot_average
+#* @tag Cars
+getChart3 <-  function() {
+  d <- ggplot(inventory, aes(year, price)) +          
+    geom_bar(position = "dodge",
+             stat = "summary",
+             fun = "mean",
+             width=0.7,
+             fill="steelblue",
+             color= "black") + 
+    geom_point(size= 4) +
+    theme_minimal()+
+    scale_y_continuous(name="Price", breaks= waiver())+
+    xlab("Year")
+  print(d)
+}
+
+
+
 
 #* Add a car to the inventory
 #* @post /car/
