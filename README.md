@@ -12,22 +12,22 @@ This session will introduce you to Plumber, which is an open-source R package th
 ### Main learning objectives
 
 The goals of this session are to: 
-(1) equip you with conceptual knowledge about the dplyr package and data wrangling workflow, 
-(2) show you the three key verbs of the pacakge, and 
-(3) provide you with practice material as well as some further readings.
+(1) Equip you with conceptual knowledge about the plumber package and API's. 
+(2) Show you some of the plumber pipeline. 
+(3) Provide you with practice material as well as some further readings.
 
 
 ## Instructors
 
-- Simon Munzert ([website](http://simonmunzert.github.io/), [twitter](https://twitter.com/simonsaysnothin))
-- Kermit the Frog ([website](https://en.wikipedia.org/wiki/Kermit_the_Frog), [twitter](https://twitter.com/KermitTheFrog))
+- Alvaro Guijarro ([website](https://github.com/Alvaroguijarro97/), [email](226883@students.hertie-school.org))
+- Finn Krueger ([website](https://github.com/finnkrueger), [email]())
 
 
 ## Further resources
 
-- [dplyr overview at dplyr.tidyverse.org](https://dplyr.tidyverse.org/)
-- [Hands-on dplyr tutorial by Data School on YouTube](https://www.youtube.com/watch?v=jWjqLW-u3hc)
-- [R for Data Science book - part on data wrangling](https://r4ds.had.co.nz/wrangle-intro.html)
+- [Basics of Plumber and walk through the creation of a web API from scratch](https://www.rstudio.com/resources/webinars/plumbing-apis-with-plumber/)
+- [Integrating R with Plumber APIs on YouTube](https://www.youtube.com/watch?v=J0Th2QRZ7Rk&ab_channel=PositPBC)
+- [APIs examples built in R ](https://github.com/sol-eng/plumberExamples)
 
 
 ## License
@@ -36,6 +36,6 @@ The material in this repository is made available under the [MIT license](http:/
 
 ## Statement of contributions
 
-**Simon Munzert** prepared the practice material and post-processed the recording.
+**Alvaro Guijarro** prepared the practice material.
 
-**Kermit the Frog** prepared the presentation slides and recording. He also provided an example to the practice material.
+**Finn Krueger** prepared the presentation slides and recording.
